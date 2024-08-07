@@ -19,3 +19,11 @@ export type CollegesInfos = {
 export type CodeData = {
   code: string;
 };
+
+export interface CollegesResponse {
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalRecords: number;
+  colleges: CollegeInfo[];
+}

@@ -25,6 +25,26 @@ function insertCollege(
   db.close();
 }
 
+function getCollegesByPage(page: number, pageSize: number) {
+  const db = connectToDatabase();
+  const offset: number = (page - 1) * pageSize;
+  const stmt = db.prepare("SELECT * FROM colleges LIMIT ? OFFSET ?");
+  const colleges: any[] = stmt.all(pageSize, offset);
+
+  const totalStmt = db.prepare("SELECT COUNT(*) AS total FROM colleges");
+  const totalResult: any = totalStmt.get();
+  const totalRecords: number = totalResult.total;
+
+  const totalPages: number = Math.ceil(totalRecords / pageSize);
+
+  db.close();
+  return {
+    totalPages,
+    totalRecords,
+    colleges,
+  };
+}
+
 // Function to retrieve all colleges
 function getAllColleges() {
   const db = connectToDatabase();
@@ -34,4 +54,4 @@ function getAllColleges() {
   return rows;
 }
 
-export { insertCollege, getAllColleges };
+export { insertCollege, getAllColleges, getCollegesByPage };

@@ -4,6 +4,7 @@ import { CodeData, CollegeInfo, CollegesInfos } from "@/types";
 
 export default function Home() {
   const [collegesInfos, setCollegesInfos] = useState<CollegeInfo[]>([]);
+  const [page, setPage] = useState(1);
   const getPage = async () => {
     try {
       const res = await fetch("/api/getPage");
@@ -33,16 +34,26 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setInterval(async () => {
-      const response = await fetch("/api/getColleges");
-      const colleges = await response.json();
+    const interval = setInterval(async () => {
+      const params = new URLSearchParams({
+        page: `${page}`,
+        pageSize: "3",
+      });
+      const response = await fetch(
+        `/api/getCollegesPagination?${params.toString()}`
+      );
+      const { colleges } = await response.json();
       setCollegesInfos(colleges);
     }, 3000);
-  }, []);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [page]);
 
   return (
     <main>
       <button onClick={() => getPage()}>Click me</button>
+      <button onClick={() => setPage(page + 1)}>Next Page</button>
       <div>
         <div>
           {collegesInfos.map((collegeInfo, i) => (
