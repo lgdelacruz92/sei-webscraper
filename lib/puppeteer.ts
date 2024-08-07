@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer";
-import fs from "fs";
 
 export const getHtml = async (url: string): Promise<string> => {
   const browser = await puppeteer.launch();

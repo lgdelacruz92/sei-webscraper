@@ -1,14 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getHtml } from "@/lib/puppeteer";
 import { JSDOM } from "jsdom";
-
-type Data = {
-  collegeNames: string[];
-};
+import { CollegeInfo, CollegesInfos } from "@/types";
 
 export default async function getPage(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<CollegesInfos>
 ) {
   const html = await getHtml(
     "https://bigfuture.collegeboard.org/college-search/filters"
@@ -16,12 +13,24 @@ export default async function getPage(
   const dom = new JSDOM(html);
   const document = dom.window.document;
   const colleges = document.querySelectorAll(
-    ".cs-search-results-list-display a"
+    ".cs-search-results-list-display .cs-college-card-outer-container"
   );
-  const collegeNames: string[] = [];
+  const collegesInfos: CollegeInfo[] = [];
   colleges.forEach((c: Element) => {
-    collegeNames.push(c.getAttribute("aria-label") ?? "");
+    const name = c.querySelector("a");
+
+    const addressElem = c.querySelector(".cs-college-card-college-address");
+    let city = "";
+    let state = "";
+    if (addressElem) {
+      const cityState = addressElem.innerHTML;
+      [city, state] = cityState.split(",");
+    }
+    collegesInfos.push({
+      name: name ? name.getAttribute("aria-label") ?? "" : "",
+      city,
+      state,
+    });
   });
-  console.log({ document, colleges, collegeNames });
-  res.status(200).json({ collegeNames });
+  res.status(200).json({ collegesInfos });
 }
