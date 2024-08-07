@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CollegeInfo, CollegesInfos } from "@/types";
+import { CodeData, CollegeInfo, CollegesInfos } from "@/types";
 
 export default function Home() {
   const [collegesInfos, setCollegesInfos] = useState<CollegeInfo[]>([]);
@@ -7,7 +7,20 @@ export default function Home() {
     try {
       const res = await fetch("/api/getPage");
       const result: CollegesInfos = await res.json();
-      setCollegesInfos(result.collegesInfos);
+      if (result.collegesInfos.length > 0) {
+        for (let i = 0; i < result.collegesInfos.length; i++) {
+          const params = new URLSearchParams({
+            link: result.collegesInfos[i].link,
+          });
+          const codeResponse = await fetch(`/api/getCode?${params.toString()}`);
+          if (codeResponse.status === 200) {
+            const { name, city, state, link } = result.collegesInfos[i];
+            const { code }: CodeData = await codeResponse.json();
+            collegesInfos.push({ name, city, state, code, link });
+            setCollegesInfos([...collegesInfos]);
+          }
+        }
+      }
     } catch (e: any) {
       console.log(e);
     }

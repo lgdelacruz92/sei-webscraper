@@ -3,10 +3,6 @@ import { getHtml } from "@/lib/puppeteer";
 import { JSDOM } from "jsdom";
 import { CollegeInfo, CollegesInfos } from "@/types";
 
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export default async function getPage(
   req: NextApiRequest,
   res: NextApiResponse<CollegesInfos>

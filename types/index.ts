@@ -9,3 +9,7 @@ export type CollegeInfo = {
 export type CollegesInfos = {
   collegesInfos: CollegeInfo[];
 };
+
+export type CodeData = {
+  code: string;
+};
