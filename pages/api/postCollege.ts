@@ -9,13 +9,13 @@ export default function postCollege(
   const { name, city, state, code, link } = req.body;
 
   if (!name || !city || !state || !code || !link) {
-    res.status(400).json({ error: "Name and email are required" });
+    res.status(400).json({ error: "missing field" });
     return;
   }
 
   try {
     insertCollege(name, city, state, code, link);
-    res.status(201).json({ message: "User added successfully" });
+    res.status(201).json({ message: "College added successfully" });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
