@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "rm -rf colleges.db && next dev",
     "build": "npx puppeteer browsers install chrome && next build",
-    "start": "next start",
+    "start": "rm -rf colleges.db && next start",
     "lint": "next lint"
   },
   "dependencies": {

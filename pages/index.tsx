@@ -1,4 +1,5 @@
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import { CodeData, CollegeInfo, CollegesInfos } from "@/types";
 
 export default function Home() {
@@ -30,26 +31,33 @@ export default function Home() {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    setInterval(async () => {
+      const response = await fetch("/api/getColleges");
+      const colleges = await response.json();
+      setCollegesInfos(colleges);
+    }, 3000);
+  }, []);
+
   return (
     <main>
       <button onClick={() => getPage()}>Click me</button>
       <div>
         <div>
           {collegesInfos.map((collegeInfo, i) => (
-            <div key={i}>
-              <div className="grid grid-cols-4">
-                <div className="text-wrap border border-slate-400">
-                  {collegeInfo.name}
-                </div>
-                <div className="text-wrap border border-slate-400">
-                  {collegeInfo.city}
-                </div>
-                <div className="text-wrap border border-slate-400">
-                  {collegeInfo.state}
-                </div>
-                <div className="text-wrap border border-slate-400">
-                  {collegeInfo.link}
-                </div>
+            <div key={i} className="grid grid-cols-4">
+              <div className="text-wrap border border-slate-400">
+                {collegeInfo.name}
+              </div>
+              <div className="text-wrap border border-slate-400">
+                {collegeInfo.city}
+              </div>
+              <div className="text-wrap border border-slate-400">
+                {collegeInfo.state}
+              </div>
+              <div className="text-wrap border border-slate-400">
+                {collegeInfo.code}
               </div>
             </div>
           ))}
