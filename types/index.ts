@@ -1,3 +1,9 @@
+export type PostCollegeResponse =
+  | {
+      message: string;
+    }
+  | { error: string };
+
 export type CollegeInfo = {
   name: string;
   city: string;

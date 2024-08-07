@@ -16,8 +16,13 @@ export default function Home() {
           if (codeResponse.status === 200) {
             const { name, city, state, link } = result.collegesInfos[i];
             const { code }: CodeData = await codeResponse.json();
-            collegesInfos.push({ name, city, state, code, link });
-            setCollegesInfos([...collegesInfos]);
+            const postCollegeResponse = await fetch("/api/postCollege", {
+              method: "POST", // Specify the HTTP method as POST
+              headers: {
+                "Content-Type": "application/json", // Set the Content-Type header to application/json for JSON data
+              },
+              body: JSON.stringify({ name, city, state, code, link }), // Convert the data object to a JSON string
+            });
           }
         }
       }
@@ -27,6 +32,7 @@ export default function Home() {
   };
   return (
     <main>
+      <button onClick={() => getPage()}>Click me</button>
       <div>
         <div>
           {collegesInfos.map((collegeInfo, i) => (
@@ -49,7 +55,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <button onClick={() => getPage()}>Click me</button>
     </main>
   );
 }
