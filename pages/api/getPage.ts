@@ -1,5 +1,6 @@
-import { JSDOM } from "jsdom";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getHtml } from "@/lib/puppeteer";
+import { JSDOM } from "jsdom";
 
 type Data = {
   collegeNames: string[];
@@ -9,10 +10,9 @@ export default async function getPage(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const response = await fetch(
+  const html = await getHtml(
     "https://bigfuture.collegeboard.org/college-search/filters"
   );
-  const html = await response.text();
   const dom = new JSDOM(html);
   const document = dom.window.document;
   const colleges = document.querySelectorAll(
