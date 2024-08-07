@@ -19,7 +19,7 @@ export default async function getPage(
     ".cs-search-results-list-display a"
   );
   const collegeNames: string[] = [];
-  colleges.forEach((c: HTMLElement) => {
+  colleges.forEach((c: Element) => {
     collegeNames.push(c.getAttribute("aria-label") ?? "");
   });
   res.status(200).json({ collegeNames });
