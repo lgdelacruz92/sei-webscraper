@@ -22,5 +22,6 @@ export default async function getPage(
   colleges.forEach((c: Element) => {
     collegeNames.push(c.getAttribute("aria-label") ?? "");
   });
+  console.log({ document, colleges, collegeNames });
   res.status(200).json({ collegeNames });
 }
