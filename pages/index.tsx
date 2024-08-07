@@ -15,16 +15,26 @@ export default function Home() {
   return (
     <main>
       <div>
-        <ul>
+        <div>
           {collegesInfos.map((collegeInfo, i) => (
-            <li key={i}>
-              <div>{collegeInfo.name}</div>
-              <div>
-                {collegeInfo.city},{collegeInfo.state}
+            <div key={i}>
+              <div className="grid grid-cols-4">
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.name}
+                </div>
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.city}
+                </div>
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.state}
+                </div>
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.link}
+                </div>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
       <button onClick={() => getPage()}>Click me</button>
     </main>

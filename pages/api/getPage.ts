@@ -24,21 +24,11 @@ export default async function getPage(
   for (const c of colleges) {
     const aTag = c.querySelector("a");
     let code = "";
+    let link = "";
     if (aTag && aTag.hasAttribute("href")) {
-      console.log(aTag);
       const collegeLink = aTag.getAttribute("href");
       if (collegeLink) {
-        console.log({ collegeLink });
-        const collegeDetailHtml = await getHtml(collegeLink);
-
-        const collegeDetailDom = new JSDOM(collegeDetailHtml);
-        const collegeDocument = collegeDetailDom.window.document;
-        const collegeCodesElem = collegeDocument.querySelector(
-          '[data-testid="csp-more-about-college-board-code-valueId"]'
-        );
-        if (collegeCodesElem) {
-          code = collegeCodesElem.innerHTML;
-        }
+        link = collegeLink;
       }
     }
     const addressElem = c.querySelector(".cs-college-card-college-address");
@@ -49,15 +39,13 @@ export default async function getPage(
       const [c, s] = cityState.split(",");
       city = c;
       state = s;
-      console.log({ addressElem });
     }
-
-    console.log({ code });
     collegesInfos.push({
       name: aTag ? aTag.getAttribute("aria-label") ?? "" : "",
       city,
       state,
       code,
+      link,
     });
   }
   res.status(200).json({ collegesInfos });
