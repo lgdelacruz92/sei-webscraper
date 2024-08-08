@@ -10,6 +10,18 @@
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch TypeScript with ts-node",
+      "program": "${workspaceFolder}/lib/puppeteer-test/src/puppeteer-test.ts",
+      "outFiles": ["${workspaceFolder}/lib/puppeteer-test/dist/**/*.js"],
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "development"
+      }
     }
   ]
 }
