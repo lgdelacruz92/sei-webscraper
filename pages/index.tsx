@@ -42,7 +42,7 @@ export default function Home() {
         <Button onClick={onStartScraping}>Start Scraping</Button>
         <LoadingBar
           progress={progressValue}
-          description="Scraping College List"
+          description="Scraping Colleges List"
         />
       </div>
     </main>
