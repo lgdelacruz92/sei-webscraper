@@ -32,13 +32,13 @@ export default function LoadingBar({
       <text
         x="50%"
         y="15"
-        font-family="Arial"
-        font-size="14"
-        fill="#000"
-        text-anchor="middle"
-        alignment-baseline="middle"
+        fontFamily="Arial"
+        fontSize="14"
+        fill="#fff"
+        textAnchor="middle"
+        alignmentBaseline="middle"
       >
-        <tspan id="percentage">{description}</tspan>
+        <tspan id="percentage">{`${description} ${clampedProgress}%`}</tspan>
         <animate
           attributeName="fill-opacity"
           from="0"
