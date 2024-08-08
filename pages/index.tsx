@@ -8,8 +8,15 @@ export default function Home() {
   const onStartScraping = () => {};
   return (
     <main>
-      <TextInput label="URL" placeholder={url} disabled />
-      <Button onClick={onStartScraping}>Start Scraping</Button>
+      <div className="app-container flex flex-col items-center">
+        <TextInput
+          label="URL"
+          placeholder={url}
+          disabled
+          className="m-4 min-w-[80%]"
+        />
+        <Button onClick={onStartScraping}>Start Scraping</Button>
+      </div>
     </main>
   );
 }
