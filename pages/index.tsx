@@ -54,23 +54,6 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(async () => {
-  //     const params = new URLSearchParams({
-  //       page: `${page}`,
-  //       pageSize: "3",
-  //     });
-  //     const response = await fetch(
-  //       `/api/getCollegesPagination?${params.toString()}`
-  //     );
-  //     const { colleges } = await response.json();
-  //     setCollegesInfos(colleges);
-  //   }, 3000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [page]);
-
   useEffect(() => {
     const interval = setInterval(
       () => setTimeElapsed(new Date().getTime() - startFetching),
