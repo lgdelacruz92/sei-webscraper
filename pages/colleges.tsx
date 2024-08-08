@@ -1,46 +1,6 @@
 "use client";
-import { Table, Progress, Anchor, Text, Group } from "@mantine/core";
-import classes from "./TableReviews.module.css";
+import { Table } from "@mantine/core";
 import { useEffect, useState } from "react";
-
-const data = [
-  {
-    title: "Foundation",
-    author: "Isaac Asimov",
-    year: 1951,
-    reviews: { positive: 2223, negative: 259 },
-  },
-  {
-    title: "Frankenstein",
-    author: "Mary Shelley",
-    year: 1818,
-    reviews: { positive: 5677, negative: 1265 },
-  },
-  {
-    title: "Solaris",
-    author: "Stanislaw Lem",
-    year: 1961,
-    reviews: { positive: 3487, negative: 1845 },
-  },
-  {
-    title: "Dune",
-    author: "Frank Herbert",
-    year: 1965,
-    reviews: { positive: 8576, negative: 663 },
-  },
-  {
-    title: "The Left Hand of Darkness",
-    author: "Ursula K. Le Guin",
-    year: 1969,
-    reviews: { positive: 6631, negative: 993 },
-  },
-  {
-    title: "A Scanner Darkly",
-    author: "Philip K Dick",
-    year: 1977,
-    reviews: { positive: 8124, negative: 1847 },
-  },
-];
 
 type CollegeRowProp = {
   name: string;
@@ -107,9 +67,9 @@ export default function Colleges() {
           <button
             key={i}
             className="px-4 border rounded"
-            onClick={() => setPage(i)}
+            onClick={() => setPage(i + 1)}
           >
-            {i}
+            {i + 1}
           </button>
         ))}
       </div>
