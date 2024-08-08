@@ -16,6 +16,7 @@ export default async function getPage(
   const colleges = document.querySelectorAll(
     ".cs-search-results-list-display .cs-college-card-container"
   );
+  console.log({ atagsNum: colleges.length });
   const collegesInfos: CollegeInfo[] = [];
   for (const c of colleges) {
     const aTag = c.querySelector("a");

@@ -5,8 +5,10 @@ import { CodeData, CollegeInfo, CollegesInfos } from "@/types";
 export default function Home() {
   const [collegesInfos, setCollegesInfos] = useState<CollegeInfo[]>([]);
   const [page, setPage] = useState(1);
+  const [pageLoading, setPageLoading] = useState(false);
   const getPage = async () => {
     try {
+      setPageLoading(true);
       const res = await fetch("/api/getPage");
       const result: CollegesInfos = await res.json();
       if (result.collegesInfos.length > 0) {
@@ -30,50 +32,58 @@ export default function Home() {
       }
     } catch (e: any) {
       console.log(e);
+    } finally {
+      setPageLoading(false);
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      const params = new URLSearchParams({
-        page: `${page}`,
-        pageSize: "3",
-      });
-      const response = await fetch(
-        `/api/getCollegesPagination?${params.toString()}`
-      );
-      const { colleges } = await response.json();
-      setCollegesInfos(colleges);
-    }, 3000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [page]);
+  // useEffect(() => {
+  //   const interval = setInterval(async () => {
+  //     const params = new URLSearchParams({
+  //       page: `${page}`,
+  //       pageSize: "3",
+  //     });
+  //     const response = await fetch(
+  //       `/api/getCollegesPagination?${params.toString()}`
+  //     );
+  //     const { colleges } = await response.json();
+  //     setCollegesInfos(colleges);
+  //   }, 3000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [page]);
 
   return (
     <main>
       <button onClick={() => getPage()}>Click me</button>
       <button onClick={() => setPage(page + 1)}>Next Page</button>
-      <div>
+      {pageLoading ? (
         <div>
-          {collegesInfos.map((collegeInfo, i) => (
-            <div key={i} className="grid grid-cols-4">
-              <div className="text-wrap border border-slate-400">
-                {collegeInfo.name}
-              </div>
-              <div className="text-wrap border border-slate-400">
-                {collegeInfo.city}
-              </div>
-              <div className="text-wrap border border-slate-400">
-                {collegeInfo.state}
-              </div>
-              <div className="text-wrap border border-slate-400">
-                {collegeInfo.code}
-              </div>
-            </div>
-          ))}
+          Please wait while we query colleges. This takes about 10 mins.
         </div>
-      </div>
+      ) : (
+        <div>
+          <div>
+            {collegesInfos.map((collegeInfo, i) => (
+              <div key={i} className="grid grid-cols-4">
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.name}
+                </div>
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.city}
+                </div>
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.state}
+                </div>
+                <div className="text-wrap border border-slate-400">
+                  {collegeInfo.code}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </main>
   );
 }
